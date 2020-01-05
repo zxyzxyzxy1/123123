@@ -38,7 +38,7 @@ public class GoodsController {
 		map.put("name", name);
 		map.put("begin", begin);
 		map.put("end", end);
-		
+		System.out.println(".............");
 		PageHelper.startPage(pageNum, 2);
 		List<Goods> list = ser.queryGoods(map);
 		
