@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bw.mapper.GoodsDao">
+	<select id="queryGoods" resultType="com.bw.entity.Goods" parameterType="map">
+		select * from t_goods g,t_type t where g.tid=t.tid and g.status=0
+		<if test="name!=null and name!=''">
+			AND g.`name` like CONCAT('%',#{name},'%')
+		</if>
+		<if test="begin!=null and begin!='' and end!=null and end!=''">
+			AND g.datea BETWEEN #{begin} AND #{end}
+		</if>
+	</select>
+	
+	<select id="listType" resultType="com.bw.entity.Type">
+		select * from t_type;
+	</select>
+	
+	<insert id="addGoods" parameterType="com.bw.entity.Goods">
+		insert into t_goods 
+		(name,tid,price,datea,status) 
+		values 
+		(#{name},#{tid},#{price},#{datea},#{status})
+	</insert>
+	
+	<update id="deleteGoods">
+		update t_goods set status=1 where id in (${id})
+	</update>
+	
+	<select id="GoodsByID" parameterType="int" resultType="com.bw.entity.Goods">
+		select * from t_goods g,t_type t where g.tid=t.tid and g.id=#{id}
+	</select>
+	
+	<update id="updateGoods" parameterType="com.bw.entity.Goods">
+		update t_goods set name=#{name},tid=#{tid},price=#{price} where id=#{id}
+	</update>
+</mapper>
+    
